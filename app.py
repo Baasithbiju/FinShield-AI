@@ -13,9 +13,10 @@ from pathlib import Path
 
 logo=None
 banner = None
+BASE_DIR = Path(__file__).parent
 
-logo_path = Path("assets/images/logo.png")
-banner_path = Path("assets/images/bank_banner.jpg")
+logo_path = BASE_DIR / "assets" / "images" / "logo.png"
+banner_path = BASE_DIR / "assets" / "images" / "bank_banner.jpg"
 
 if logo_path.exists():
     logo = Image.open(logo_path)
@@ -23,10 +24,10 @@ if banner_path.exists():
     banner = Image.open(banner_path)
 
 # ---------- SIDEBAR ----------
-st.sidebar.image(
-    "assets/images/logo.png",
-    width=80
-)
+if logo is not None:
+    st.sidebar.image(logo, width=80)
+
+
 #st.sidebar.image(logo, width=80)
 st.sidebar.title("FinShield AI")
 
@@ -46,7 +47,9 @@ st.sidebar.success("Version 1.0")
 # ---------- DASHBOARD ----------
 if page == "🏠 Dashboard":
 
-    st.image(banner, width="stretch")
+    if banner is not None:
+        st.image(banner, width="stretch")
+
     st.title("🏦 FinShield AI")
     st.subheader("Intelligent Banking Risk & Customer Insights")
 
