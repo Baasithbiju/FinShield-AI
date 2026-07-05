@@ -2,6 +2,9 @@ import streamlit as st
 from financial_engine import analyze_customer
 import plotly.graph_objects as go
 from report_Generator import generate_report
+from customer_database import save_customer, load_customers
+from datetime import datetime
+
 
 st.set_page_config(
     page_title="FinShield AI",
@@ -238,6 +241,43 @@ elif page == "👤 Customer Analysis":
             employment
         )
 
+
+        customer_record = {
+
+        "Date": datetime.now().strftime("%d-%m-%Y %H:%M"),
+
+        "Customer Name": customer_name,
+
+        "Age": age,
+
+        "Occupation": occupation,
+
+        "Employment": employment,
+
+        "Income": salary,
+
+        "Expenses": expenses,
+
+        "Savings": savings,
+
+        "Existing Loan": existing_loan,
+
+        "Credit Bill": credit_bill,
+
+        "CIBIL": cibil,
+
+        "Loan Requested": loan_amount,
+
+        "Financial Score": result["score"],
+
+        "Risk": result["risk"],
+
+        "Decision": result["decision"]
+
+        }
+
+        save_customer(customer_record)
+
         st.markdown("---")
 
         st.header("Financial Analysis")
@@ -392,9 +432,30 @@ elif page == "👤 Customer Analysis":
 # ---------- REPORT PAGE ----------
 elif page == "📈 Reports":
 
-    st.title("📈 Reports")
+    st.title("📈 Customer Reports")
 
-    st.write("Reports will be available after customer analysis.")
+    df = load_customers()
+
+    if df.empty:
+
+        st.warning("No customer reports available.")
+
+    else:
+
+        st.success(f"{len(df)} Customers Analyzed")
+
+        st.dataframe(df, use_container_width=True)
+
+        st.download_button(
+
+            "📥 Download Excel Report",
+
+            df.to_csv(index=False).encode("utf-8"),
+
+            file_name="Customer_Reports.csv",
+
+            mime="text/csv"
+        )
 
 # ---------- ABOUT ----------
 else:
