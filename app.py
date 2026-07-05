@@ -5,18 +5,29 @@ from report_Generator import generate_report
 from customer_database import save_customer, load_customers
 from datetime import datetime
 from PIL import Image
+from pathlib import Path
 
 
-logo = Image.open("assets/images/logo.png")
-banner = Image.open("assets/images/bank_banner.jpg")
+#logo = Image.open("assets/images/logo.png")
+#banner = Image.open("assets/images/bank_banner.jpg")
 
+logo=None
+banner = None
+
+logo_path = Path("assets/images/logo.png")
+banner_path = Path("assets/images/bank_banner.jpg")
+
+if logo_path.exists():
+    logo = Image.open(logo_path)
+if banner_path.exists():
+    banner = Image.open(banner_path)
 
 # ---------- SIDEBAR ----------
 st.sidebar.image(
     "assets/images/logo.png",
     width=80
 )
-st.sidebar.image(logo, width=80)
+#st.sidebar.image(logo, width=80)
 st.sidebar.title("FinShield AI")
 
 page = st.sidebar.radio(
@@ -35,7 +46,7 @@ st.sidebar.success("Version 1.0")
 # ---------- DASHBOARD ----------
 if page == "🏠 Dashboard":
 
-    st.image(banner, use_column_width=True)
+    st.image(banner, width="stretch")
     st.title("🏦 FinShield AI")
     st.subheader("Intelligent Banking Risk & Customer Insights")
 
