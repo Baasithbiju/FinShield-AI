@@ -4,20 +4,19 @@ import plotly.graph_objects as go
 from report_Generator import generate_report
 from customer_database import save_customer, load_customers
 from datetime import datetime
+from PIL import Image
 
 
-st.set_page_config(
-    page_title="FinShield AI",
-    page_icon="🏦",
-    layout="wide"
-)
+logo = Image.open("assets/images/logo.png")
+banner = Image.open("assets/images/bank_banner.jpg")
+
 
 # ---------- SIDEBAR ----------
 st.sidebar.image(
-    "https://img.icons8.com/color/96/bank-building.png",
+    "assets/images/logo.png",
     width=80
 )
-
+st.sidebar.image(logo, width=80)
 st.sidebar.title("FinShield AI")
 
 page = st.sidebar.radio(
@@ -36,6 +35,7 @@ st.sidebar.success("Version 1.0")
 # ---------- DASHBOARD ----------
 if page == "🏠 Dashboard":
 
+    st.image(banner, use_column_width=True)
     st.title("🏦 FinShield AI")
     st.subheader("Intelligent Banking Risk & Customer Insights")
 
@@ -481,3 +481,15 @@ Developed using
 
 • FPDF
 """)
+
+st.markdown("---")
+st.markdown(
+    """
+    <div style = 'text-align: center'>
+    <h4>FinShield AI - Intelligent Banking Assistant</h4>
+    <p> Intellegent Banking Risk & Customer Insights</p>
+    <p> Developed by <b>Mohammed Baasith</b></p>
+    </div>
+    """,
+    unsafe_allow_html=True
+)
